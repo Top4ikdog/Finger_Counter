@@ -16,6 +16,12 @@ while cap.isOpened():
         print("Не удалось подкглючить камеру")
         continue
     image = cv2.flip(image, 1)
+    cv2.imshow('Video', image)
+
+    key_press = cv2.waitKey(10)
+
+    if key_press == ord('q'):
+        break
     rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     result = hands.process(rgb_image)
     multiLandMarks = result.multi_hand_landmarks
@@ -24,3 +30,7 @@ while cap.isOpened():
         for idx, handLms, in enumerate(multiLandMarks):
             inl = result.multi_handedness[idx].classification[0].label
             print(inl)
+
+cap.release()
+
+cv2.destroyAllWindows()
