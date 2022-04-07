@@ -28,28 +28,15 @@ while cap.isOpened():
     if key_press == ord('q'):
         break
 
-
+    image = cv2.flip(image,1) #зеркальное отражение
     rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     result = hands.process(rgb_image)
     multiLandMarks = result.multi_hand_landmarks
     
     if multiLandMarks:
-        for id, handLms, in enumerate(multiLandMarks):
-            inl = result.multi_handedness[id].classification[0].label
+        for idx, handLms, in enumerate(multiLandMarks):
+            inl = result.multi_handedness[idx].classification[0].label
             print(inl)
-        upCount = 0
-        for Handing in multiLandMarks: 
-            mpVisual.draw_landmarks(image, Handing, mp_hands.HAND_CONNECTIONS)
-            list = []
-            for id, lane in enumerate(handLms.landmark):
-                he, wi, l = image.shape
-                x, y  = int(lane.x * wi), int(lane.y * he)
-                list.append((x, y))
-            for cord in fing_Code:
-                if list[cord[0]][1] < list[cord[1]][1]:
-                    upCount += 1
-            if list[thumb_coord[0]][0] > list[thumb_coord[1]][0]:
-                    upCount += 1
 
 cap.release()
 
