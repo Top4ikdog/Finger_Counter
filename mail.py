@@ -5,11 +5,7 @@ import mediapipe as mp
 cap = cv2.VideoCapture(0)    #подключение камеры
 
 mp_hands = mp.solutions.hands
-hands = mp_hands.Hands(
-    max_num_hands = 1,
-    model_complexity = 0,
-    min_tracking_confidence = 0.5,
-    min_detection_confidence = 0.5)
+hands = mp_hands.Hands(max_num_hands = 1)
 mpVisual = mp.solutions.drawing_utils
 fing_Code = [(8 ,6), (12,10), (16,14), (20,18)]
 thumb_coord = (4,2)
