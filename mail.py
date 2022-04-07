@@ -21,14 +21,6 @@ while cap.isOpened():
         print("Не удалось подкглючить камеру")
         continue
     
-    image = cv2.flip(image, 1)
-    cv2.imshow('Video', image)
-
-    key_press = cv2.waitKey(10) & 0xFF == 27
-
-    if key_press == ord('q'):
-        break
-
     rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     result = hands.process(rgb_image)
     upCount = 0
@@ -53,9 +45,17 @@ while cap.isOpened():
             if fingerlist[thumb_coord[0]][0] < fingerlist[thumb_coord[1]][0]:
                 upCount += 1
             
-        cv2.putText(image, str(upCount), (50, 150), cv2.FONT_HERSHEY_COMPLEX, 12 , (0,200 ,50), 15)
+        cv2.putText(image, str(upCount), (50, 250), cv2.FONT_HERSHEY_COMPLEX, 12 , (0,200 ,50), 10)
 
         print(upCount)
+
+
+    cv2.imshow('Video', image)
+
+    key_press = cv2.waitKey(10) & 0xFF == 27
+
+    if key_press == ord('q'):
+        break
 
 cap.release()
 
