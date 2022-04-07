@@ -1,5 +1,6 @@
 from sre_constants import SUCCESS
 import cv2
+from matplotlib.pyplot import fill_between
 import mediapipe as mp
 
 cap = cv2.VideoCapture(0)    #подключение камеры
@@ -34,18 +35,20 @@ while cap.isOpened():
         for idx, handLms, in enumerate(multiLandMarks):
             inl = result.multi_handedness[idx].classification[0].label
             print(inl)
-        
+
         for handLms in multiLandMarks:
             mpVisual.draw_landmarks(image, handLms,mp_hands.HAND_CONNECTIONS)  
-            list = [] #список пальцев
+            fingerlist = [] #список пальцев
             for idx, lm in enumerate(handLms.landmark):
                 h, w , c = image.shape
                 cx, cy = int(lm.x *w), int(lm.y * h)
-                list.append((cx,cy))
+                fingerlist.append((cx,cy))
             for coordinate in fing_Code:
-                if list[coordinate[0]][1] < list[coordinate[1][1]]:
-                    upCount =+ 1
-
+                if fingerlist[coordinate[0]][1] < fingerlist[coordinate[1]][1]:
+                    upCount += 1
+            if fingerlist[thumb_coord[0]][0] < fingerlist[thumb_coord[1]][0]:
+                upCount += 1
+        print(upCount)
 
 cap.release()
 
