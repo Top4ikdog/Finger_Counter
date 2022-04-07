@@ -6,7 +6,11 @@ import mediapipe as mp
 cap = cv2.VideoCapture(0)    #подключение камеры
 
 mp_hands = mp.solutions.hands
-hands = mp_hands.Hands(max_num_hands = 2)
+hands = mp_hands.Hands(
+    model_complexity = 0,
+    min_detection_confidence = 0.5,
+    min_tracking_confidence = 0.5,
+    max_num_hands=2)
 mpVisual = mp.solutions.drawing_utils
 fing_Code = [(8 ,6), (12,10), (16,14), (20,18)]
 thumb_coord = (4,2)
@@ -20,7 +24,7 @@ while cap.isOpened():
     image = cv2.flip(image, 1)
     cv2.imshow('Video', image)
 
-    key_press = cv2.waitKey(10)
+    key_press = cv2.waitKey(10) & 0xFF == 27
 
     if key_press == ord('q'):
         break
@@ -34,7 +38,7 @@ while cap.isOpened():
     if multiLandMarks:
         for idx, handLms, in enumerate(multiLandMarks):
             inl = result.multi_handedness[idx].classification[0].label
-            print(inl)
+            #print(inl)
 
         for handLms in multiLandMarks:
             mpVisual.draw_landmarks(image, handLms,mp_hands.HAND_CONNECTIONS)  
@@ -48,6 +52,9 @@ while cap.isOpened():
                     upCount += 1
             if fingerlist[thumb_coord[0]][0] < fingerlist[thumb_coord[1]][0]:
                 upCount += 1
+            
+        cv2.putText(image, str(upCount), (50, 150), cv2.FONT_HERSHEY_COMPLEX, 12 , (0,200 ,50), 15)
+
         print(upCount)
 
 cap.release()
