@@ -31,16 +31,16 @@ while cap.isOpened():
 
     rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     result = hands.process(rgb_image)
-    multiLandMarks = result.multi_hand_landmarks
-    
-    upCount = 0 # счет пальцев
+    upCount = 0
 
-    if multiLandMarks:
-        for idx, handLms, in enumerate(multiLandMarks):
+    if result.multi_hand_landmarks:
+        
+        miltiLandMarks =result.multi_hand_landmarks
+        for idx, handLms, in enumerate(miltiLandMarks):
             inl = result.multi_handedness[idx].classification[0].label
             #print(inl)
 
-        for handLms in multiLandMarks:
+        for handLms in miltiLandMarks:
             mpVisual.draw_landmarks(image, handLms,mp_hands.HAND_CONNECTIONS)  
             fingerlist = [] #список пальцев
             for idx, lm in enumerate(handLms.landmark):
