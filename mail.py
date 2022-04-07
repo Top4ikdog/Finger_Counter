@@ -28,16 +28,24 @@ while cap.isOpened():
     result = hands.process(rgb_image)
     multiLandMarks = result.multi_hand_landmarks
     
+    upCount = 0 # счет пальцев
+
     if multiLandMarks:
         for idx, handLms, in enumerate(multiLandMarks):
             inl = result.multi_handedness[idx].classification[0].label
             print(inl)
+        
         for handLms in multiLandMarks:
             mpVisual.draw_landmarks(image, handLms,mp_hands.HAND_CONNECTIONS)  
             list = [] #список пальцев
             for idx, lm in enumerate(handLms.landmark):
                 h, w , c = image.shape
-                cx, cy = int()
+                cx, cy = int(lm.x *w), int(lm.y * h)
+                list.append((cx,cy))
+            for coordinate in fing_Code:
+                if list[coordinate[0]][1] < list[coordinate[1][1]]:
+                    upCount =+ 1
+
 
 cap.release()
 
