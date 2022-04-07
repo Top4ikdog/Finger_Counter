@@ -39,7 +39,7 @@ while cap.isOpened():
             print(inl)
         upCount = 0
         for Handing in multiLandMarks: 
-            mpVisual.draw_landmarks(image, Handing, mp_hands.Hand_CONNECTIONS)
+            mpVisual.draw_landmarks(image, Handing, mp_hands.Hand_Connections)
             list = []
             for id, lane in enumerate(handLms.landmark):
                 he, wi, l = image.shape
